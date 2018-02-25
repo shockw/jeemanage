@@ -3,6 +3,10 @@
  */
 package com.reache.jeemanage.modules.park.dao;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.reache.jeemanage.common.persistence.CrudDao;
 import com.reache.jeemanage.common.persistence.annotation.MyBatisDao;
 import com.reache.jeemanage.modules.park.entity.ParkSpace;
@@ -14,5 +18,5 @@ import com.reache.jeemanage.modules.park.entity.ParkSpace;
  */
 @MyBatisDao
 public interface ParkSpaceDao extends CrudDao<ParkSpace> {
-	
+	public List<HashMap> findIdleList();
 }

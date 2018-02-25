@@ -3,6 +3,8 @@
  */
 package com.reache.jeemanage.modules.park.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +21,7 @@ import com.reache.jeemanage.common.config.Global;
 import com.reache.jeemanage.common.persistence.Page;
 import com.reache.jeemanage.common.web.BaseController;
 import com.reache.jeemanage.common.utils.StringUtils;
+import com.reache.jeemanage.modules.park.entity.IdleParkSpaceDto;
 import com.reache.jeemanage.modules.park.entity.ParkSpace;
 import com.reache.jeemanage.modules.park.service.ParkSpaceService;
 
@@ -48,9 +51,11 @@ public class ParkSpaceController extends BaseController {
 	
 	@RequiresPermissions("park:parkSpace:view")
 	@RequestMapping(value = {"list", ""})
-	public String list(ParkSpace parkSpace, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<ParkSpace> page = parkSpaceService.findPage(new Page<ParkSpace>(request, response), parkSpace); 
-		model.addAttribute("page", page);
+	public String list( HttpServletRequest request, HttpServletResponse response, Model model) {
+//		Page<ParkSpace> page = parkSpaceService.findPage(new Page<ParkSpace>(request, response), parkSpace); 
+//		model.addAttribute("page", page);
+		List<IdleParkSpaceDto> dtoList = parkSpaceService.findIdleParkSpacePage();
+		model.addAttribute("dtoList", dtoList);
 		return "modules/park/parkSpaceList";
 	}
 

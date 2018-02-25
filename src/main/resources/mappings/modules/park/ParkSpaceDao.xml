@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.reache.jeemanage.modules.park.dao.ParkSpaceDao">
+    
+	<sql id="parkSpaceColumns">
+		a.id AS "id",
+		a.floor AS "floor",
+		a.jiffy_stand AS "jiffyStand",
+		a.space AS "space",
+		a.isuse AS "isuse",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="parkSpaceJoins">
+	</sql>
+    
+	<select id="get" resultType="ParkSpace">
+		SELECT 
+			<include refid="parkSpaceColumns"/>
+		FROM park_space a
+		<include refid="parkSpaceJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ParkSpace">
+		SELECT 
+			<include refid="parkSpaceColumns"/>
+		FROM park_space a
+		<include refid="parkSpaceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ParkSpace">
+		SELECT 
+			<include refid="parkSpaceColumns"/>
+		FROM park_space a
+		<include refid="parkSpaceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO park_space(
+			id,
+			floor,
+			jiffy_stand,
+			space,
+			isuse,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{floor},
+			#{jiffyStand},
+			#{space},
+			#{isuse},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE park_space SET 	
+			floor = #{floor},
+			jiffy_stand = #{jiffyStand},
+			space = #{space},
+			isuse = #{isuse},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE park_space SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

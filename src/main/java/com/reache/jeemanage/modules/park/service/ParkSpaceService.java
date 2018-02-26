@@ -45,8 +45,27 @@ public class ParkSpaceService extends CrudService<ParkSpaceDao, ParkSpace> {
 			IdleParkSpaceDto dto = new IdleParkSpaceDto();
 			dto.setFloor((String) (list.get(i).get("floor")));
 			dto.setJiffyStand((String) (list.get(i).get("jiffy_stand")));
-			dto.setIdleCount(list.get(i).get("idle_count")+"");
-			dto.setIdleSpaces((String) (list.get(i).get("idle_spaces")));
+			dto.setIdleCount(list.get(i).get("idle_count") + "");
+			dto.setCount(list.get(i).get("count") + "");
+			String inUseStr = (String) list.get(i).get("inuse_spaces");
+			if (inUseStr != null) {
+				String[] inUseArray = inUseStr.split(",");
+				for (int j = 0; j < inUseArray.length; j++) {
+					ParkSpace ps = dao.get(inUseArray[j]);
+					dto.getInuseSpaces().add(ps);
+				}
+			}
+
+			String idleStr = (String) list.get(i).get("idle_spaces");
+			if (idleStr != null) {
+				String[] idleArray = idleStr.split(",");
+				System.out.println(idleStr);
+				for (int k = 0; k < idleArray.length; k++) {
+					ParkSpace ps = dao.get(idleArray[k]);
+					dto.getIdleSpaces().add(ps);
+				}
+			}
+
 			idleParkSpaceList.add(dto);
 		}
 		return idleParkSpaceList;

@@ -30,8 +30,10 @@
 			<tr>
 				<th>楼层</th>
 				<th>车架</th>
-				<th>空闲车位数量</th>
-				<th>空闲车位名称</th>
+				<th>总数</th>
+				<th>空闲数</th>
+				<th>在用车位</th>
+				<th>空闲车位</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -40,8 +42,15 @@
 					<td>${fns:getDictLabel(idleParkSpace.floor, 'park_floor', '')}
 					</td>
 					<td>${fns:getDictLabel (idleParkSpace.jiffyStand, 'park_jiffy_stand', '')}</td>
+					<td>${idleParkSpace.count}</td>
 					<td>${idleParkSpace.idleCount}</td>
-					<td>${idleParkSpace.idleSpaces}</td>
+					<td ><c:forEach items="${idleParkSpace.inuseSpaces}" var="inuseSpace">  
+                                              <span ><a href="${ctx}/park/parkSpace/form?id=${inuseSpace.id}" style="color:red">${inuseSpace.space}</a></span>  
+                                        </c:forEach>  </td>
+					 <td>
+					 <c:forEach items="${idleParkSpace.idleSpaces}" var="idleSpace">  
+                                              <span><a href="${ctx}/park/parkSpace/form?id=${idleSpace.id}">${idleSpace.space}</a></span>  
+                                        </c:forEach> </td> 
 				</tr>
 			</c:forEach>
 		</tbody>

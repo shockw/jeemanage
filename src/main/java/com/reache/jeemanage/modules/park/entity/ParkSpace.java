@@ -19,7 +19,25 @@ public class ParkSpace extends DataEntity<ParkSpace> {
 	private String jiffyStand;		// 停车架
 	private String space;		// 停车位
 	private String isuse;		// 是否使用
+	private double times;		// 停车小时数
+	private int pay;		// 停车费用，半小时30
 	
+	public double getTimes() {
+		return times;
+	}
+
+	public void setTimes(double times) {
+		this.times = times;
+	}
+
+	public int getPay() {
+		return pay;
+	}
+
+	public void setPay(int pay) {
+		this.pay = pay;
+	}
+
 	public ParkSpace() {
 		super();
 	}

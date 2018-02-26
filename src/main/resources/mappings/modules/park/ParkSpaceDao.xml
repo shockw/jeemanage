@@ -34,6 +34,7 @@
 		<include refid="parkSpaceJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			and a.isuse='1'
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -46,12 +47,14 @@
 	</select>
 	
 	<select id="findIdleList" resultType="java.util.HashMap">
-		SELECT 
-			floor,jiffy_stand,sum(1) as idle_count,group_concat(space) as idle_spaces
-		FROM park_space a
+		select 
+			floor,jiffy_stand,sum(1) as count, 
+			sum(case when isuse='0' then 1 else 0 end) as idle_count ,
+			group_concat(case when isuse='0' then null else id end) as inuse_spaces,
+			group_concat(case when isuse='1' then null else id end) as idle_spaces
+			from park_space a
 		<where>
 			a.del_flag = '0'
-			and a.isuse='0'
 		</where>
 		 group by jiffy_stand,floor
 	</select>

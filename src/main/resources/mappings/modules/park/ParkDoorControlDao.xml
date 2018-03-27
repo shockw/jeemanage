@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.reache.jeemanage.modules.park.dao.ParkDoorControlDao">
+    
+	<sql id="parkDoorControlColumns">
+		a.id AS "id",
+		a.door_control_id AS "doorControlId",
+		a.number AS "number",
+		a.floor AS "floor",
+		a.jiffy_stand AS "jiffyStand",
+		a.space AS "space",
+		a.isuse AS "isuse",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="parkDoorControlJoins">
+	</sql>
+    
+	<select id="get" resultType="ParkDoorControl">
+		SELECT 
+			<include refid="parkDoorControlColumns"/>
+		FROM park_door_control a
+		<include refid="parkDoorControlJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ParkDoorControl">
+		SELECT 
+			<include refid="parkDoorControlColumns"/>
+		FROM park_door_control a
+		<include refid="parkDoorControlJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="number != null and number != ''">
+				AND a.number  LIKE CONCAT('%', #{number}, '%')
+			</if>
+			<if test="floor != null and floor != ''">
+				AND a.floor = #{floor}
+			</if>
+			<if test="jiffyStand != null and jiffyStand != ''">
+				AND a.jiffy_stand = #{jiffyStand}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ParkDoorControl">
+		SELECT 
+			<include refid="parkDoorControlColumns"/>
+		FROM park_door_control a
+		<include refid="parkDoorControlJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO park_door_control(
+			id,
+			door_control_id,
+			number,
+			floor,
+			jiffy_stand,
+			space,
+			isuse,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{doorControlId},
+			#{number},
+			#{floor},
+			#{jiffyStand},
+			#{space},
+			#{isuse},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE park_door_control SET 	
+			door_control_id = #{doorControlId},
+			number = #{number},
+			floor = #{floor},
+			jiffy_stand = #{jiffyStand},
+			space = #{space},
+			isuse = #{isuse},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE park_door_control SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

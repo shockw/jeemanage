@@ -13,7 +13,7 @@
             <li data-icon="next" data-selected="selected">
                 <span class="icon user"></span>
                 <a href="#user_section?test=abc" data-target="section">
-                    <strong>用户管理</strong>
+                    <strong>车位管理</strong>
                 </a>
             </li>
         </ul>

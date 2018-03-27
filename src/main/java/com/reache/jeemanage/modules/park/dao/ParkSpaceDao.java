@@ -19,4 +19,6 @@ import com.reache.jeemanage.modules.park.entity.ParkSpace;
 @MyBatisDao
 public interface ParkSpaceDao extends CrudDao<ParkSpace> {
 	public List<HashMap> findIdleList();
+	public List<ParkSpace> findIdle();
+	public ParkSpace findOne(String number);
 }

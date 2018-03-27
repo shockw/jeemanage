@@ -61,6 +61,13 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">车牌号：</label>
+			<div class="controls">
+				<form:input path="number" htmlEscape="false" maxlength="64" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">是否使用：</label>
 			<div class="controls">
 				<form:radiobuttons path="isuse" items="${fns:getDictList('park_isuse')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>

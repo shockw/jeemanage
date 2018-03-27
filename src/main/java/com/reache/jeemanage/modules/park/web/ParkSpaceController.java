@@ -80,7 +80,7 @@ public class ParkSpaceController extends BaseController {
 			ps.setPay((int)(times/1800000+1)*30);
 		}
 		model.addAttribute("page", page);
-		return "modules/park/parkPayList";
+		return "modules/park/inUseList";
 	}
 
 	@RequiresPermissions("park:parkSpace:view")

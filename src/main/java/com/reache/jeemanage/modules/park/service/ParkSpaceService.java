@@ -33,6 +33,14 @@ public class ParkSpaceService extends CrudService<ParkSpaceDao, ParkSpace> {
 	public List<ParkSpace> findList(ParkSpace parkSpace) {
 		return super.findList(parkSpace);
 	}
+	
+	public List<ParkSpace> findIdleList() {
+		return dao.findIdle();
+	}
+	
+	public ParkSpace findOne(String number) {
+		return dao.findOne(number);
+	}
 
 	public Page<ParkSpace> findPage(Page<ParkSpace> page, ParkSpace parkSpace) {
 		return super.findPage(page, parkSpace);

@@ -14,10 +14,19 @@ import com.reache.jeemanage.common.persistence.DataEntity;
  */
 public class ParkSpace extends DataEntity<ParkSpace> {
 	
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
 	private static final long serialVersionUID = 1L;
 	private String floor;		// 楼层
 	private String jiffyStand;		// 停车架
 	private String space;		// 停车位
+	private String number;      //车牌号
 	private String isuse;		// 是否使用
 	private double times;		// 停车小时数
 	private int pay;		// 停车费用，半小时30

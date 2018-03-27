@@ -4,9 +4,11 @@
 <head>
 <title>停车位管理</title>
 <meta name="decorator" content="default" />
+<link href="${ctxStatic}/common/bdp.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="${ctxStatic}/common/bdp.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-
+            rebuildTable("contentTable", 4);
 	});
 	function page(n, s) {
 		$("#pageNo").val(n);
@@ -24,8 +26,7 @@
 		</shiro:hasPermission>
 	</ul>
 	<sys:message content="${message}" />
-	<table id="contentTable"
-		class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-striped table-bordered table-condensed" style="table-layout:fixed;">
 		<thead>
 			<tr>
 				<th>楼层</th>
@@ -40,7 +41,7 @@
 		<tbody>
 			<c:forEach items="${dtoList}" var="idleParkSpace">
 				<tr>
-					<td>${fns:getDictLabel(idleParkSpace.floor, 'park_floor', '')}
+					<td><font size="5" color="blue">${fns:getDictLabel(idleParkSpace.floor, 'park_floor', '')}</font>
 					</td>
 					<td>${fns:getDictLabel (idleParkSpace.jiffyStand, 'park_jiffy_stand', '')}</td>
 					<td>${idleParkSpace.count}</td>

@@ -23,6 +23,11 @@ import com.reache.jeemanage.common.utils.StringUtils;
 import com.reache.jeemanage.modules.act.utils.ActUtils;
 import com.reache.jeemanage.modules.oa.dao.LeaveDao;
 import com.reache.jeemanage.modules.oa.entity.Leave;
+import com.reache.jeemanage.modules.sys.entity.Office;
+import com.reache.jeemanage.modules.sys.entity.Role;
+import com.reache.jeemanage.modules.sys.entity.User;
+import com.reache.jeemanage.modules.sys.service.SystemService;
+import com.reache.jeemanage.modules.sys.utils.UserUtils;
 
 /**
  * 请假Service
@@ -45,6 +50,8 @@ public class LeaveService extends BaseService {
 	protected RepositoryService repositoryService;
 	@Autowired
 	private IdentityService identityService;
+	@Autowired
+	private SystemService systemService;
 
 	/**
 	 * 获取流程详细及工作流参数
@@ -82,13 +89,34 @@ public class LeaveService extends BaseService {
 		logger.debug("save entity: {}", leave);
 		
 		// 用来设置启动流程的人员ID，引擎会自动把用户ID保存到activiti:initiator中
-		identityService.setAuthenticatedUserId(leave.getCurrentUser().getLoginName());
 		
+		identityService.setAuthenticatedUserId(UserUtils.getUser().getLoginName()); 
+	
 		// 启动流程
 		String businessKey = leave.getId().toString();
 		variables.put("type", "leave");
 		variables.put("busId", businessKey);
-		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(ActUtils.PD_LEAVE[0], businessKey, variables);
+		//查询所在部门的部门经理和公司分管领导
+		User user = leave.getCurrentUser();
+		Office office = user.getOffice();
+		List<User> userList = systemService.findUserByOfficeId(office.getId());
+		System.out.println(userList.get(0).getRoleIdList());
+		Role role =systemService.getRoleByEnname("dept_manager");
+		String deptManagerRole = role.getId();
+		for(int i =0;i<userList.size();i++){
+			User u = UserUtils.get(userList.get(i).getId());
+			List<String> roleList = u.getRoleIdList();
+			for(int j=0;j<roleList.size();j++){
+				if(deptManagerRole.equals(roleList.get(j))){
+					variables.put("dept_manager", u.getLoginName());
+				}else{
+					break;
+				}
+			}
+		}
+		
+		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(ActUtils.PD_LEAVE[0],ActUtils.PD_LEAVE[1]+":"+businessKey, variables);
+
 		leave.setProcessInstance(processInstance);
 		
 		// 更新流程实例ID

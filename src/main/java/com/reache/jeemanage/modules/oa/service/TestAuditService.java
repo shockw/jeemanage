@@ -48,9 +48,12 @@ public class TestAuditService extends CrudService<TestAuditDao, TestAudit> {
 		if (StringUtils.isBlank(testAudit.getId())){
 			testAudit.preInsert();
 			dao.insert(testAudit);
-			
+			System.out.println(":::::::::::::"+testAudit);
+			Map<String, Object> vars = Maps.newHashMap();
+			vars.put("leader", "shock");
+			System.out.println(":::::::::::::"+vars);
 			// 启动流程
-			actTaskService.startProcess(ActUtils.PD_TEST_AUDIT[0], ActUtils.PD_TEST_AUDIT[1], testAudit.getId(), testAudit.getContent());
+			actTaskService.startProcess(ActUtils.PD_TEST_AUDIT[0], ActUtils.PD_TEST_AUDIT[1], testAudit.getId(), testAudit.getContent(),vars);
 			
 		}
 		
@@ -64,6 +67,7 @@ public class TestAuditService extends CrudService<TestAuditDao, TestAudit> {
 			// 完成流程任务
 			Map<String, Object> vars = Maps.newHashMap();
 			vars.put("pass", "yes".equals(testAudit.getAct().getFlag())? "1" : "0");
+			System.out.println(":::::::::::::"+testAudit);
 			actTaskService.complete(testAudit.getAct().getTaskId(), testAudit.getAct().getProcInsId(), testAudit.getAct().getComment(), testAudit.getContent(), vars);
 		}
 	}

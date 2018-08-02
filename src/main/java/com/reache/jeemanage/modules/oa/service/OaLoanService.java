@@ -107,11 +107,13 @@ public class OaLoanService extends CrudService<OaLoanDao, OaLoan> {
 		// 审核环节
 		if ("audit".equals(taskDefKey)) {
 			oaLoan.setFinancialText(oaLoan.getAct().getComment());
-			Office office = oaLoan.getOffice();
-			List<User> userList = systemService.findUser(new User(new Role("5")));
-			List<User> userList1 = systemService.findUserByOfficeId(office.getId());
-			userList.retainAll(userList1);
-			vars.put("dept_leader", userList.get(0).getLoginName());
+			if("yes".equals(oaLoan.getAct().getFlag())){
+				Office office = oaLoan.getOffice();
+				List<User> userList = systemService.findUser(new User(new Role("5")));
+				List<User> userList1 = systemService.findUserByOfficeId(office.getId());
+				userList.retainAll(userList1);
+				vars.put("dept_leader", userList.get(0).getLoginName());
+			}
 			dao.updateFinancialText(oaLoan);
 		} else if ("audit2".equals(taskDefKey)) {
 			oaLoan.setLeadText(oaLoan.getAct().getComment());

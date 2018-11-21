@@ -51,7 +51,7 @@
                                               <span><a href="${ctx}/park/parkSpace/form?id=${idleSpace.id}" style="color:red">${idleSpace.space}</a></span>  
                                         </c:forEach> </td> 
 					<td ><c:forEach items="${idleParkSpace.inuseSpaces}" var="inuseSpace">  
-                                              <span ><a href="${ctx}/park/parkSpace/form?id=${inuseSpace.id}" >${inuseSpace.space}</a></span>  
+                                              <span >${inuseSpace.space}</span>  
                                         </c:forEach>  </td>
 					
 				</tr>

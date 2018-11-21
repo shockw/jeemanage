@@ -43,7 +43,6 @@
 		<include refid="parkSpaceJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			and a.isuse='1'
 			<if test="number != null and number != ''">
 				AND a.number  LIKE CONCAT('%', #{number}, '%')
 			</if>
@@ -52,6 +51,9 @@
 			</if>
 			<if test="jiffyStand != null and jiffyStand != ''">
 				AND a.jiffy_stand = #{jiffyStand}
+			</if>
+			<if test="isuse != null and isuse != ''">
+				AND a.isuse = #{isuse}
 			</if>
 		</where>
 		<choose>

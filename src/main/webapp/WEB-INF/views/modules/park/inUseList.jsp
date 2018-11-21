@@ -54,6 +54,7 @@
 				<th>停车时间</th>
 				<th>使用时间</th>
 				<th>停车费用</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -78,6 +79,9 @@
 				</td>
 				<td>
 				${inuseSpace.pay}元
+				</td>
+				<td>
+				<a href="${ctx}/park/parkSpace/getCar?id=${inuseSpace.id}">取车</a>
 				</td>
 			</tr>
 		</c:forEach>

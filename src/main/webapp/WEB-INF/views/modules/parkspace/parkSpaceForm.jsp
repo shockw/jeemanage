@@ -32,7 +32,17 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="parkSpace" action="${ctx}/park/parkSpaceManager/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>		
+		<sys:message content="${message}"/>	
+		<div class="control-group">
+			<label class="control-label">停车架：</label>
+			<div class="controls">
+				<form:select path="jiffyStand" class="input-xlarge required">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('park_jiffy_stand')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>	
 		<div class="control-group">
 			<label class="control-label">楼层：</label>
 			<div class="controls">
@@ -43,16 +53,7 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">停车架：</label>
-			<div class="controls">
-				<form:select path="jiffyStand" class="input-xlarge required">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('park_jiffy_stand')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
+		
 		<div class="control-group">
 			<label class="control-label">停车位：</label>
 			<div class="controls">

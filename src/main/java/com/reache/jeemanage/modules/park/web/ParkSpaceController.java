@@ -134,6 +134,7 @@ public class ParkSpaceController extends BaseController {
 		ParkPayRule ppr = parkPayRuleService.get("1");
 		ParkPay pp = new ParkPay();
 		pp.setFloor(parkSpace.getFloor());
+		pp.setRemarks("0");
 		pp.setJiffyStand(parkSpace.getJiffyStand());
 		pp.setSpace(parkSpace.getSpace());
 		pp.setNumber(parkSpace.getNumber());
@@ -157,7 +158,7 @@ public class ParkSpaceController extends BaseController {
 		parkSpace.setNumber("");
 		parkSpaceService.save(parkSpace);
 
-		return "redirect:" + Global.getAdminPath() + "/park/parkPay/?repage";
+		return "redirect:" + Global.getAdminPath() + "/park/parkPay/list?repage";
 	}
 
 	@RequiresPermissions("park:parkSpace:edit")
@@ -167,5 +168,7 @@ public class ParkSpaceController extends BaseController {
 		addMessage(redirectAttributes, "删除停车位成功");
 		return "redirect:" + Global.getAdminPath() + "/park/parkSpace/?repage";
 	}
+	
+	
 
 }

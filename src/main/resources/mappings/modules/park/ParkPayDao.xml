@@ -41,7 +41,10 @@
 				AND a.floor = #{floor}
 			</if>
 			<if test="jiffyStand != null and jiffyStand != ''">
-				AND a.jiffyStand = #{jiffyStand}
+				AND a.jiffy_stand = #{jiffyStand}
+			</if>
+			<if test="remarks != null and remarks != ''">
+				AND a.remarks = #{remarks}
 			</if>
 		</where>
 		<choose>

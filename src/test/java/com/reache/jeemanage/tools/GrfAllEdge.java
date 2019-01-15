@@ -210,7 +210,7 @@ public class GrfAllEdge {
 		}
 		// 添加脱管节点
 		// List<String> nodesUn = Arrays.asList("冀州大常庄基站_CSG", "冀州周村_CSG","冀州吉爽暖气（艺科）基站_CSG", "冀州中心局基站_CSG");
-		List<String> nodesUn = Arrays.asList("冀州中心局1_ATN950B_CSG");
+		List<String> nodesUn = Arrays.asList("冀州大常庄基站_CSG", "冀州周村_CSG","冀州吉爽暖气（艺科）基站_CSG", "冀州中心局基站_CSG");
 		// 根据节点数组、节点目标关系数组、asg1的索引位置、asg2的索引位置、脱管的节点名称列表构造图关系实例
 		GrfAllEdge grf = new GrfAllEdge(nodesA.length, nodesA, nodesZ, a1Index, a2Index, nodesUn);
 		// 打印节点关系矩阵图

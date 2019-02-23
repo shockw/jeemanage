@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+	<description>spring任务调度，quartz任务调度</description>
+	<!-- 计划任务配置，用 @Service @Lazy(false)标注类，用@Scheduled(cron = "0 0 2 * * ?")标注方法 -->
+    <task:executor id="executor" pool-size="10"/> <task:scheduler id="scheduler" pool-size="10"/>
+    <task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true"/>
+	<bean id="clusterQuartzScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!-- quartz配置文件路径, 指向cluster配置 -->
+		<property name="configLocation" value="classpath:schedule/quartz-cluster.properties" />
+		<!-- 启动时延期5秒开始任务 -->
+		<property name="startupDelay" value="5" />
+		<!-- 保存Job数据到数据库所需的数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- Job接受applicationContext的成员变量名 -->
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+		<!-- 修改job时，更新到数据库 -->
+        <property name="overwriteExistingJobs" value="true" />
+	</bean>
+	<!--设置系统管理器,必须使用getInstance()初始化实例,系统整体设计管理器全部为单例-->
+    <bean class="com.github.quartzweb.manager.quartz.QuartzManager" factory-method="getInstance">
+        <!--设置scheduler集合-->
+        <property name="schedulers">
+            <list>
+                <ref bean="clusterQuartzScheduler" />
+            </list>
+        </property>
+        <!--设置是否查找scheduler仓库,false-->
+        <property name="lookupSchedulerRepository" value="false"/>
+        <!--是否使用默认scheduler-->
+        <property name="useDefaultScheduler" value="false"/>
+    </bean>
+    
+    <!--设置bean管理器,通过spring的applicationContext获取-->
+    <bean id="springQuartzBeanManager" class="com.github.quartzweb.manager.bean.SpringQuartzBeanManager">
+        <property name="priority" value="1" />
+    </bean>
+    
+    <!--声明bean管理器门面,必须使用getInstance()初始化实例-->
+    <bean id="quartzBeanManagerFacade" class="com.github.quartzweb.manager.bean.QuartzBeanManagerFacade"
+          factory-method="getInstance">
+        <!--设置管理器,根据优先级排序-->
+        <property name="quartzBeanManagers">
+            <list>
+                <ref bean="springQuartzBeanManager"/>
+            </list>
+        </property>
+        <!--是否启用默认bean管理器-->
+        <property name="useDefaultQuartzBeanManager" value="false"/>
+    </bean>
+</beans>

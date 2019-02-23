@@ -56,6 +56,7 @@
 		</ul>
 	</form:form>
 	<sys:message content="${message}"/>
+	<div>${json }</div>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>

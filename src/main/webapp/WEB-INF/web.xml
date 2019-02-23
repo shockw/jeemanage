@@ -115,6 +115,17 @@
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
 	
+	<!-- quartzweb -->
+	<servlet>
+        <servlet-name>quartzweb</servlet-name>
+        <servlet-class>com.github.quartzweb.http.QuartzWebServlet</servlet-class>
+    </servlet>
+    <!--配置url-->
+    <servlet-mapping>
+        <servlet-name>quartzweb</servlet-name>
+        <url-pattern>/quartzweb/*</url-pattern>
+    </servlet-mapping>
+	
 	<!-- CKFinder -->
 	<servlet>
 		<servlet-name>CKFinderConnectorServlet</servlet-name>

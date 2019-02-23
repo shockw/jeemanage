@@ -1,9 +1,12 @@
 package com.reache.jeemanage.test.web;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.reache.jeemanage.common.config.Global;
+import com.reache.jeemanage.common.mapper.JsonMapper;
 import com.reache.jeemanage.common.persistence.Page;
 import com.reache.jeemanage.common.utils.StringUtils;
 import com.reache.jeemanage.common.web.BaseController;
+import com.reache.jeemanage.modules.sys.service.SchedulerService;
 import com.reache.jeemanage.test.entity.TestData;
 import com.reache.jeemanage.test.service.TestDataService;
 
@@ -27,9 +32,11 @@ import com.reache.jeemanage.test.service.TestDataService;
 @Controller
 @RequestMapping(value = "${adminPath}/test/testData")
 public class TestDataController extends BaseController {
-
+	
 	@Autowired
 	private TestDataService testDataService;
+	@Autowired
+	private SchedulerService schedulerService;
 	
 	@ModelAttribute
 	public TestData get(@RequestParam(required=false) String id) {
@@ -48,6 +55,13 @@ public class TestDataController extends BaseController {
 	public String list(TestData testData, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<TestData> page = testDataService.findPage(new Page<TestData>(request, response), testData); 
 		model.addAttribute("page", page);
+		try {
+			Map<String,Object> info = schedulerService.getSchedulerInfo();
+			model.addAttribute("json", JsonMapper.toJsonString(info));
+		} catch (SchedulerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "jeemanage/test/testDataList";
 	}
 

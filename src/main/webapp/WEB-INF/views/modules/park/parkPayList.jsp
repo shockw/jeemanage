@@ -63,7 +63,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-			<li class="active"><a href="${ctx}/park/parkPay/list">缴费列表</a></li>
+			<li class="active"><a href="${ctx}/park/parkPay/list">待缴费列表</a></li>
 		</ul>
 	<div>
 		<form:form id="searchForm" modelAttribute="parkPay"
@@ -95,8 +95,7 @@
 				<tr>
 					<th>楼层</th>
 					<th>停车架</th>
-					<th>车位</th>
-					<th>车牌号</th>
+					<th>人员id</th>
 					<th>停车开始时间</th>
 					<th>停车结束时间</th>
 					<th>停车费</th>
@@ -110,8 +109,7 @@
 					<tr>
 						<td>${fns:getDictLabel(parkPay.floor, 'park_floor', '')}</td>
 						<td>${fns:getDictLabel(parkPay.jiffyStand, 'park_jiffy_stand', '')}</td>
-						<td>${parkPay.space}</td>
-						<td>${parkPay.number}</td>
+						<td>${parkPay.personId} </td>
 						<td><fmt:formatDate value="${parkPay.startDate }"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td><fmt:formatDate value="${parkPay.endDate }"
@@ -133,56 +131,6 @@
 				<img id="bigimg" style="border: 5px solid #fff;" src="" />
 			</div>
 		</div>
-	</div>
-	<div>在停车辆列表
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
-		<thead>
-			<tr>
-				<th>楼层</th>
-				<th>停车架</th>
-				<th>车位</th>
-				<th>车牌号</th>
-				<th>停车时间</th>
-				<th>使用时间</th>
-				<th>停车费用</th>
-				<th>状态</th>
-				<th>操作</th>
-			</tr>
-		</thead>
-		<tbody>
-		<c:forEach items="${page1.list}" var="inuseSpace">
-			<tr><td>
-					${fns:getDictLabel(inuseSpace.floor, 'park_floor', '')}
-				</td>
-				<td>
-					${fns:getDictLabel(inuseSpace.jiffyStand, 'park_jiffy_stand', '')}
-				</td>
-				<td>
-					${inuseSpace.space}
-				</td>
-				<td>
-					${inuseSpace.number}
-				</td>
-				<td>
-					<fmt:formatDate value="${inuseSpace.updateDate }" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</td>
-				<td>
-				${inuseSpace.times}分钟
-				</td>
-				<td>
-				${inuseSpace.pay}元
-				</td>
-				<td>
-				${fns:getDictLabel(inuseSpace.isuse, 'park_isuse', '')}
-				</td>
-				<td>
-				<a href="${ctx}/park/parkSpace/getCar?id=${inuseSpace.id}">标记取车</a>
-				</td>
-			</tr>
-		</c:forEach>
-		</tbody>
-	</table>
-	<div class="pagination">${page1}</div>
 	</div>
 </body>
 </html>

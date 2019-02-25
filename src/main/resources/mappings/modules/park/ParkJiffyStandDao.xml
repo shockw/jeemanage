@@ -1,41 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.reache.jeemanage.modules.park.dao.ParkPayDao">
+<mapper namespace="com.reache.jeemanage.modules.park.dao.ParkJiffyStandDao">
     
-	<sql id="parkPayColumns">
+	<sql id="parkJiffyStandColumns">
 		a.id AS "id",
 		a.floor AS "floor",
 		a.jiffy_stand AS "jiffyStand",
-		a.person_id AS "personId",
-		a.space AS "space",
-		a.number AS "number",
-		a.start_date AS "startDate",
-		a.end_date AS "endDate",
-		a.cost AS "cost",
+		a.count AS "count",
+		a.inuse_count AS "inuseCount",
+		a.idle_count AS "idleCount",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		a.number AS "number"
 	</sql>
 	
-	<sql id="parkPayJoins">
+	<sql id="parkJiffyStandJoins">
 	</sql>
     
-	<select id="get" resultType="ParkPay">
+	<select id="get" resultType="ParkJiffyStand">
 		SELECT 
-			<include refid="parkPayColumns"/>
-		FROM park_pay a
-		<include refid="parkPayJoins"/>
+			<include refid="parkJiffyStandColumns"/>
+		FROM park_jiffy_stand a
+		<include refid="parkJiffyStandJoins"/>
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="ParkPay">
+	<select id="findList" resultType="ParkJiffyStand">
 		SELECT 
-			<include refid="parkPayColumns"/>
-		FROM park_pay a
-		<include refid="parkPayJoins"/>
+			<include refid="parkJiffyStandColumns"/>
+		FROM park_jiffy_stand a
+		<include refid="parkJiffyStandJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="floor != null and floor != ''">
@@ -43,9 +41,6 @@
 			</if>
 			<if test="jiffyStand != null and jiffyStand != ''">
 				AND a.jiffy_stand = #{jiffyStand}
-			</if>
-			<if test="remarks != null and remarks != ''">
-				AND a.remarks = #{remarks}
 			</if>
 		</where>
 		<choose>
@@ -58,11 +53,11 @@
 		</choose>
 	</select>
 	
-	<select id="findAllList" resultType="ParkPay">
+	<select id="findAllList" resultType="ParkJiffyStand">
 		SELECT 
-			<include refid="parkPayColumns"/>
-		FROM park_pay a
-		<include refid="parkPayJoins"/>
+			<include refid="parkJiffyStandColumns"/>
+		FROM park_jiffy_stand a
+		<include refid="parkJiffyStandJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
@@ -77,16 +72,13 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO park_pay(
+		INSERT INTO park_jiffy_stand(
 			id,
 			floor,
 			jiffy_stand,
-			person_id,
-			space,
-			number,
-			start_date,
-			end_date,
-			cost,
+			count,
+			inuse_count,
+			idle_count,
 			create_by,
 			create_date,
 			update_by,
@@ -97,12 +89,9 @@
 			#{id},
 			#{floor},
 			#{jiffyStand},
-			#{personId},
-			#{space},
-			#{number},
-			#{startDate},
-			#{endDate},
-			#{cost},
+			#{count},
+			#{inuseCount},
+			#{idleCount},
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
@@ -113,21 +102,17 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE park_pay SET 	
+		UPDATE park_jiffy_stand SET 	
 			floor = #{floor},
 			jiffy_stand = #{jiffyStand},
-			person_id = #{personId},
-			start_date = #{startDate},
-			end_date = #{endDate},
-			cost = #{cost},
-			update_by = #{updateBy.id},
-			update_date = #{updateDate},
-			remarks = #{remarks}
+			count = #{count},
+			inuse_count = #{inuseCount},
+			idle_count = #{idleCount}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE park_pay SET 
+		UPDATE park_jiffy_stand SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>

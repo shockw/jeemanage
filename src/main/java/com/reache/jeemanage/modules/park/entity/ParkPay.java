@@ -20,10 +20,19 @@ public class ParkPay extends DataEntity<ParkPay> {
 	private static final long serialVersionUID = 1L;
 	private String floor;		// 楼层
 	private String jiffyStand;		// 停车架
+	private String personId;    //人员id
 	private String space;		// 停车位
 	private String number;		// 车牌号
 	private Date startDate;		// 开始时间
 	private Date endDate;		// 结束时间
+	public String getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(String personId) {
+		this.personId = personId;
+	}
+
 	private String cost;		// 费用
 	
 	public ParkPay() {

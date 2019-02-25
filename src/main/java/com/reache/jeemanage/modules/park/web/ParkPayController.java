@@ -3,12 +3,19 @@
  */
 package com.reache.jeemanage.modules.park.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +29,7 @@ import com.reache.jeemanage.common.config.Global;
 import com.reache.jeemanage.common.persistence.Page;
 import com.reache.jeemanage.common.web.BaseController;
 import com.reache.jeemanage.common.utils.StringUtils;
+import com.reache.jeemanage.modules.park.api.ParkAPI;
 import com.reache.jeemanage.modules.park.entity.ParkPay;
 import com.reache.jeemanage.modules.park.entity.ParkPayRule;
 import com.reache.jeemanage.modules.park.entity.ParkSpace;
@@ -121,6 +129,18 @@ public class ParkPayController extends BaseController {
 	@RequiresPermissions("park:parkPay:edit")
 	@RequestMapping(value = "paymark")
 	public String paymark(ParkPay parkPay,  RedirectAttributes redirectAttributes) {
+		// 开门
+		try {
+//			CloseableHttpClient httpclient = HttpClients.createDefault();
+//			HttpPost httpPost = new HttpPost(ParkAPI.OUT_URL + "/device/openDoorControl");
+//			httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+//			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+//			nvps.add(new BasicNameValuePair("pass", "88888888"));
+//			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+//			httpclient.execute(httpPost);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		parkPay.setRemarks("1");
 		parkPayService.save(parkPay);
 		addMessage(redirectAttributes, "标记缴费成功");

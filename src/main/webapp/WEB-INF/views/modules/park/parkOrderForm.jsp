@@ -4,6 +4,7 @@
 <head>
 	<title>停车订单管理</title>
 	<meta name="decorator" content="default"/>
+	<meta http-equiv="Content-Type" content="multipart/form-data;charset=utf-8" />
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//$("#name").focus();
@@ -30,7 +31,7 @@
 		<li><a href="${ctx}/park/parkOrder/">停车订单列表</a></li>
 		<li class="active"><a href="${ctx}/park/parkOrder/form?id=${parkOrder.id}">停车订单<shiro:hasPermission name="park:parkOrder:edit">${not empty parkOrder.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="park:parkOrder:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="parkOrder" action="${ctx}/park/parkOrder/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="parkOrder" action="${ctx}/park/parkOrder/save" method="post" class="form-horizontal" enctype="multipart/form-data">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
@@ -61,6 +62,18 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">存车图片：</label>
+			<div class="controls">
+				<input name="file" type="file" multiple="multiple"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">取车图片：</label>
+			<div class="controls">
+				<input name="file1" type="file" multiple="multiple"/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">开始时间：</label>
 			<div class="controls">
 				<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
@@ -74,6 +87,14 @@
 			<div class="controls">
 				<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					value="<fmt:formatDate value="${parkOrder.endTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">付款时间：</label>
+			<div class="controls">
+				<input name="payTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					value="<fmt:formatDate value="${parkOrder.payTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
 		</div>

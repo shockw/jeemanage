@@ -8,8 +8,12 @@
 		a.jiffy_stand AS "jiffyStand",
 		a.person_id AS "personId",
 		a.path AS "path",
+		a.pay_time AS "payTime",
+		a.cost AS "cost",
 		a.start_time AS "startTime",
 		a.end_time AS "endTime",
+		a.in_pic AS "inPic",
+		a.out_pic AS "outPic",
 		a.status AS "status",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -46,8 +50,11 @@
 			<if test="personId != null and personId != ''">
 				AND a.person_id = #{personId}
 			</if>
-			<if test="beginStartTime != null and endStartTime != null and beginStartTime != '' and endStartTime != ''">
-				AND a.start_time BETWEEN #{beginStartTime} AND #{endStartTime}
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="startTime != null and endTime != null and startTime != '' and endTime != ''">
+				AND a.start_time BETWEEN #{startTime} AND #{endTime}
 			</if>
 		</where>
 		<choose>
@@ -85,8 +92,12 @@
 			jiffy_stand,
 			person_id,
 			path,
+			in_pic,
+			out_pic,
+			cost,
 			start_time,
 			end_time,
+			pay_time,
 			status,
 			create_by,
 			create_date,
@@ -100,8 +111,12 @@
 			#{jiffyStand},
 			#{personId},
 			#{path},
+			#{inPic},
+			#{outPic},
+			#{cost},
 			#{startTime},
 			#{endTime},
+			#{payTime},
 			#{status},
 			#{createBy.id},
 			#{createDate},
@@ -120,6 +135,14 @@
 			path = #{path},
 			start_time = #{startTime},
 			end_time = #{endTime},
+			pay_time = #{payTime},
+			cost = #{cost},
+			<if test="inPic != null and inPic != ''">
+				in_pic = #{inPic},
+			</if>
+			<if test="outPic != null and outPic != ''">
+				out_pic = #{outPic},
+			</if>
 			status = #{status}
 		WHERE id = #{id}
 	</update>

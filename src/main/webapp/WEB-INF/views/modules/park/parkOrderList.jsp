@@ -40,12 +40,12 @@
 			<li><label>用户id：</label>
 				<form:input path="personId" htmlEscape="false" maxlength="64" class="input-medium"/>
 			</li>
-			<li><label>开始时间：</label>
-				<input name="beginStartTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${parkOrder.beginStartTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+			<li><label>存车时间：</label>
+				<input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					value="<fmt:formatDate value="${parkOrder.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> - 
-				<input name="endStartTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${parkOrder.endStartTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+				<input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					value="<fmt:formatDate value="${parkOrder.endTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
@@ -59,9 +59,11 @@
 				<th>楼层</th>
 				<th>停车架</th>
 				<th>用户id</th>
-				<th>用户照片</th>
-				<th>开始时间</th>
-				<th>结束时间</th>
+				<th>存车照片</th>
+				<th>取车照片</th>
+				<th>存车时间</th>
+				<th>取车时间</th>
+				<th>付款时间</th>
 				<th>订单状态</th>
 				<shiro:hasPermission name="park:parkOrder:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -78,14 +80,20 @@
 				<td>
 					${parkOrder.personId}
 				</td>
-				<td><img class="imgcode" height="50" width="50"
-							src="${parkOrder.path}">
+				<td>
+							<img src="data:image/png;base64,${parkOrder.inPic}" height="100" width="100"/>
+				</td>
+				<td>
+							<img src="data:image/png;base64,${parkOrder.outPic}" height="100" width="100"/>
 				</td>
 				<td>
 					<fmt:formatDate value="${parkOrder.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
 					<fmt:formatDate value="${parkOrder.endTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+					<fmt:formatDate value="${parkOrder.payTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
 					${fns:getDictLabel(parkOrder.status, 'park_order_status', '')}

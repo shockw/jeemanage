@@ -131,13 +131,13 @@ public class ParkPayController extends BaseController {
 	public String paymark(ParkPay parkPay,  RedirectAttributes redirectAttributes) {
 		// 开门
 		try {
-//			CloseableHttpClient httpclient = HttpClients.createDefault();
-//			HttpPost httpPost = new HttpPost(ParkAPI.OUT_URL + "/device/openDoorControl");
-//			httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-//			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-//			nvps.add(new BasicNameValuePair("pass", "88888888"));
-//			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
-//			httpclient.execute(httpPost);
+			CloseableHttpClient httpclient = HttpClients.createDefault();
+			HttpPost httpPost = new HttpPost(ParkAPI.OUT_URL + "/device/openDoorControl");
+			httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+			nvps.add(new BasicNameValuePair("pass", "88888888"));
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			httpclient.execute(httpPost);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

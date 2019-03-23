@@ -7,12 +7,12 @@
 <script src="${ctxStatic}/jquery/jquery.qrcode.min.js"
 	type="text/javascript"></script>
 <script type="text/javascript">
-	setTimeout(function(){location.reload()},1000); 
+	setTimeout(function(){location.reload()},5000); 
 	$(document).ready(
 			function() {
 				var personId = $("#personId").val();
 				jQuery('#qrcode').qrcode(
-						"http://192.168.43.24:8080/jeemanage/a/park/api/pay?personId="
+						"http://192.168.4.100:8080/jeemanage/a/park/api/pay?personId="
 								+ personId);
 			});
 	$(function() {

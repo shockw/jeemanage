@@ -54,6 +54,7 @@ public class ParkAPI {
 	public static final String IN_URL = "http://192.168.4.108:8090";
 	public static final String OUT_URL = "http://192.168.4.109:8090";
 	public static final String FTP_IP = "192.168.4.108";
+	public static final String FTP_OUT = "192.168.4.109";
 	public static final int FTP_PORT = 8010;
 
 	@Autowired
@@ -213,7 +214,7 @@ public class ParkAPI {
 			ParkOrder parkOrder = list.get(0);
 			// 获取识别图片下载，并保存至数据库
 			String ss[] = path.split("/");
-			FtpUtil.downloadFtpFile(FTP_IP, FTP_PORT, "/recordsImg/" + ss[4], LOCAL_DIR, ss[5]);
+			FtpUtil.downloadFtpFile(FTP_OUT, FTP_PORT, "/recordsImg/" + ss[4], LOCAL_DIR, ss[5]);
 			String base64code = getImageStr(LOCAL_DIR + ss[5]);
 			parkOrder.setOutPic(base64code);
 			parkOrder.setEndTime(new Date());
@@ -245,28 +246,28 @@ public class ParkAPI {
 		try {
 			//开门
 			CloseableHttpClient httpclient = HttpClients.createDefault();
-//			HttpPost httpPost = new HttpPost(OUT_URL + "/device/openDoorControl");
-//			httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-//			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-//			nvps.add(new BasicNameValuePair("pass", "88888888"));
-//			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
-//			httpclient.execute(httpPost);
+			HttpPost httpPost = new HttpPost(OUT_URL + "/device/openDoorControl");
+			httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+			nvps.add(new BasicNameValuePair("pass", "88888888"));
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			httpclient.execute(httpPost);
 			//删除入口设备和出口设备上的注册信息，
-//			HttpPost httpPost = new HttpPost(IN_URL + "/person/delete");
-//			httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-//			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-//			nvps.add(new BasicNameValuePair("pass", "88888888"));
-//			nvps.add(new BasicNameValuePair("id", personId));
-//			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
-//			httpclient.execute(httpPost);
+			HttpPost httpPost2 = new HttpPost(IN_URL + "/person/delete");
+			httpPost2.setHeader("Content-Type", "application/x-www-form-urlencoded");
+			List<NameValuePair> nvps2 = new ArrayList<NameValuePair>();
+			nvps2.add(new BasicNameValuePair("pass", "88888888"));
+			nvps2.add(new BasicNameValuePair("id", personId));
+			httpPost2.setEntity(new UrlEncodedFormEntity(nvps2));
+			httpclient.execute(httpPost2);
 			
-//			HttpPost httpPost1 = new HttpPost(OUT_URL + "/person/delete");
-//			httpPost1.setHeader("Content-Type", "application/x-www-form-urlencoded");
-//			List<NameValuePair> nvps1 = new ArrayList<NameValuePair>();
-//			nvps1.add(new BasicNameValuePair("pass", "88888888"));
-//			nvps1.add(new BasicNameValuePair("id", personId));
-//			httpPost1.setEntity(new UrlEncodedFormEntity(nvps1));
-//			httpclient.execute(httpPost1);
+			HttpPost httpPost1 = new HttpPost(OUT_URL + "/person/delete");
+			httpPost1.setHeader("Content-Type", "application/x-www-form-urlencoded");
+			List<NameValuePair> nvps1 = new ArrayList<NameValuePair>();
+			nvps1.add(new BasicNameValuePair("pass", "88888888"));
+			nvps1.add(new BasicNameValuePair("id", personId));
+			httpPost1.setEntity(new UrlEncodedFormEntity(nvps1));
+			httpclient.execute(httpPost1);
 		} catch (Exception e) {
 		}
 		return SUCCESS_RESULT;

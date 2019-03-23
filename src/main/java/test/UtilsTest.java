@@ -7,6 +7,13 @@ import com.reache.jeemanage.common.utils.IdGen;
 import com.reache.jeemanage.modules.park.api.ParkAPI;
 
 public class UtilsTest {
+	public static final String LOCAL_DIR = "/Users/shock/Downloads/";
+	public static final String SUCCESS_RESULT = "\"{\\\"result\\\":1,\\\"success\\\":true}\"";
+	public static final String ERROR_RESULT = "\"{\\\"result\\\":0,\\\"success\\\":false}\"";
+	public static final String IN_URL = "http://192.168.4.108:8090";
+	public static final String OUT_URL = "http://192.168.4.109:8090";
+	public static final String FTP_IP = "192.168.4.108";
+	public static final int FTP_PORT = 8010;
 	public static void main(String[] args) {
 //		String ftpHost = "192.168.4.108";
 //        int ftpPort = 8010;
@@ -19,8 +26,11 @@ public class UtilsTest {
 //	System.out.println(base64code);
 //		FtpUtil.downloadFtpFile(ftpHost, ftpPort, "/faceRegister", "/Users/shock/Downloads",
 //				"3b3989690a964afd97d1bba9eae1cc48_dd61def3e3864967ace3c4f7cf975d19.jpg");
-		String str = "ftp://192.168.5.101:8010/recordsImg/2018-02-28/00100_1519786791566.jpg";
-		String ss[] = str.split("/");
-		System.out.println( "/recordsImg/"+ss[4]);
+//		String str = "ftp://192.168.5.101:8010/recordsImg/2018-02-28/00100_1519786791566.jpg";
+//		String ss[] = str.split("/");
+//		System.out.println( "/recordsImg/"+ss[4]);
+		String newImagePath = "ftp://192.168.4.108:8010/faceRegister/3cbbcf79b56d4d8d91832d4cd8886333_a8f42bb1ce63479bb919d6aed5384f0e.jpg";
+		FtpUtil.downloadFtpFile(FTP_IP, FTP_PORT, "/faceRegister", LOCAL_DIR,
+				newImagePath.substring(newImagePath.indexOf("faceRegister") + 13));
 	}
 }

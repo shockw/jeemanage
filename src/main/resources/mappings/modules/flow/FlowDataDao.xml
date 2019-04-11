@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.reache.jeemanage.modules.flow.dao.FlowDataDao">
+    
+	<sql id="flowDataColumns">
+		a.id AS "id",
+		a.flow_id AS "flowId",
+		a.summary AS "summary",
+		a.type AS "type",
+		a.apply_time AS "applyTime",
+		a.status AS "status",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="flowDataJoins">
+	</sql>
+    
+	<select id="get" resultType="FlowData">
+		SELECT 
+			<include refid="flowDataColumns"/>
+		FROM flow_data a
+		<include refid="flowDataJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="FlowData">
+		SELECT 
+			<include refid="flowDataColumns"/>
+		FROM flow_data a
+		<include refid="flowDataJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="beginApplyTime != null and endApplyTime != null and beginApplyTime != '' and endApplyTime != ''">
+				AND a.apply_time BETWEEN #{beginApplyTime} AND #{endApplyTime}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="FlowData">
+		SELECT 
+			<include refid="flowDataColumns"/>
+		FROM flow_data a
+		<include refid="flowDataJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO flow_data(
+			id,
+			flow_id,
+			summary,
+			type,
+			apply_time,
+			status,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{flowId},
+			#{summary},
+			#{type},
+			#{applyTime},
+			#{status},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE flow_data SET 	
+			flow_id = #{flowId},
+			summary = #{summary},
+			type = #{type},
+			apply_time = #{applyTime},
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE flow_data SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
